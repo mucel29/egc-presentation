@@ -1,0 +1,244 @@
+:root {
+  --bg-color: #050a05;
+  --term-green: #33ff00; /* Main text color */
+  --term-dim: #1a8000;   /* Dimmed text color */
+  --font-size: 20px;     /* Projector Friendly */
+}
+
+/* --- GLOBAL LAYOUT --- */
+body {
+  background-color: var(--bg-color);
+  color: var(--term-green);
+  font-family: "Courier New", "Courier", monospace;
+  font-size: var(--font-size);
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  
+  /* Prevent the whole page from scrolling */
+  overflow: hidden; 
+  
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* --- CRT EFFECT OVERLAY --- */
+#crt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.06),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.06)
+    );
+  background-size: 100% 2px, 3px 100%;
+}
+
+/* --- TERMINAL CONTAINER --- */
+#terminal-container {
+  width: 95vw;
+  height: 95vh;
+  position: relative;
+  z-index: 10;
+  text-shadow: 0 0 3px var(--term-dim);
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- OUTPUT AREA (SCROLLABLE) --- */
+#output-area {
+  flex-grow: 1; /* Fills remaining space */
+  overflow-y: auto; /* Allows scrolling */
+  overflow-x: hidden; /* Prevents ASCII art from breaking width */
+  padding-right: 15px;
+  padding-bottom: 60px; /* Space for prompt at bottom */
+  scroll-behavior: smooth;
+
+  /* HIDE SCROLLBARS (Cross-Browser) */
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+#output-area::-webkit-scrollbar { 
+  display: none; /* Chrome/Safari */
+}
+
+/* --- TYPOGRAPHY & ELEMENTS --- */
+
+/* Standard Text Blocks */
+div {
+  margin-bottom: 5px;
+  line-height: 1.4;
+}
+
+/* ASCII ART HANDLER (Generic PRE tag)
+   This replaces .ascii-art and .header-block 
+*/
+pre {
+  background: #112211;
+  padding: 1.5rem;
+  border: 2px solid var(--term-dim);
+  overflow-x: auto; /* Allow code to scroll if needed */
+  font-family: inherit;
+  font-size: 0.9em;
+}
+
+/* --- ASCII ART OVERRIDES --- */
+/* This class will be applied to the header only */
+pre.ascii-art {
+    background: transparent;
+    border: none;
+    padding: 0;
+    
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre; 
+    font-weight: bold;
+    color: var(--term-green);
+    text-shadow: 0 0 5px var(--term-green);
+    
+    /* FIX: Inherit size from body (20px) instead of scaling down */
+    font-size: inherit; 
+    line-height: 1.0; /* Keep lines tight for the art to look connected */
+    
+    margin: 2rem 0;
+    
+    /* Allow horizontal scrolling if it's too wide, but HIDE the bar */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+}
+
+/* Force hide scrollbar on Webkit for the ASCII art specifically */
+pre.ascii-art::-webkit-scrollbar {
+    display: none;
+}
+
+/* On mobile, we lock it to a tiny size */
+@media (max-width: 600px) {
+    pre.ascii-art {
+        font-size: 6px; /* Hardcoded safe size for mobile */
+    }
+}
+/* Markdown specific styles (Inside slides) */
+h1 {
+  font-size: 2rem;
+  margin: 1.5rem 0;
+  border-bottom: 2px dashed var(--term-dim);
+}
+h2 {
+  font-size: 1.5rem;
+  margin: 1.2rem 0;
+}
+p, li {
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+code {
+  background: #112211;
+  padding: 2px 8px;
+  color: #fff;
+}
+/* Code blocks inside markdown */
+.slide pre {
+    background: #112211;
+    padding: 1.5rem;
+    border: 2px solid var(--term-dim);
+    line-height: 1.4; /* Normal line height for code */
+}
+
+/* --- MENU & CHOICES --- */
+.choice {
+  cursor: pointer;
+  display: block;
+  padding: 8px 10px;
+  margin-bottom: 2px;
+  border-left: 5px solid transparent; 
+  opacity: 0.9;
+}
+
+.choice:hover {
+  background-color: var(--term-dim);
+  color: #fff;
+}
+
+.choice.active-selection {
+  background-color: var(--term-green);
+  color: var(--bg-color);
+  border-left: 5px solid #fff;
+  opacity: 1;
+}
+
+/* --- PROMPT LINE --- */
+.prompt-line {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+.prompt-path {
+  margin-right: 15px;
+  opacity: 0.8;
+}
+.user-typing {
+  color: #fff;
+  text-shadow: none;
+}
+.cursor {
+  width: 14px;
+  height: 1.2em;
+  background-color: var(--term-green);
+  animation: blink 1s step-end infinite;
+  margin-left: 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+/* --- SLIDES / PRESENTATION --- */
+
+.slide { 
+    display: none; 
+    margin-bottom: 4rem; 
+    padding-bottom: 2rem;
+    border-bottom: 1px dashed var(--term-dim); 
+    opacity: 0.4; 
+    transition: opacity 0.3s, border-color 0.3s;
+}
+
+.slide.active { display: block; }
+
+/* Current Focused Slide */
+.slide.current { 
+    opacity: 1; 
+    border-bottom: 2px solid #fff; 
+}
+.slide.current h1, 
+.slide.current h2, 
+.slide.current h3 {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+    border-bottom-color: #fff;
+}
+
+.system-info {
+    margin-bottom: 2rem;
+    color: var(--term-dim);
+}
+
+.hint {
+  font-size: 0.7em;
+  color: var(--term-dim);
+  margin-top: 2rem;
+  text-align: center;
+}
+.blink { animation: blink 1s infinite; }

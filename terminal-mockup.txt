@@ -1,0 +1,58 @@
+/------------------------------\
+|     Din memorie pe ecran     |
+|    Asavoae Cosmin-Stefan     |
+|                     331CD    |
+\------------------------------/
+
+
+Te aflii intr-o padure. In fata ta a aparut Cosmin care te intreaba
+despre ce topic vrei sa vorbeasca.
+
+1. Arhitectura
+2. Optimizari
+3. Efecte
+4. Magie neagra
+5. Raytracing
+e. Il ignori si mergi mai departe prin padure.
+
+> 2
+
+Cosmin nu pare multumit de topicul "Optimizari". Este prea generic.
+Cosmin iti propune cateva subiecte mai specifice.
+
+1. Batch rendering
+2. Instanced rendering
+3. SDF for vector graphics
+... etc
+b. Intoarce-te
+
+> 1
+
+* spit out the presentation about batch rendering *
+
+...
+
+Se pare ca limba lui Cosmin nu a amortit. Asteapta cu nerabdare sa alegi urmatorul subiect.
+
+1. Batch rendering
+2. Instanced rendering
+3. SDF for vector graphics
+... etc
+b. Intoarce-te
+
+> b
+
+Ii spui lui Cosmin ca ai auzit destule despre "Optimizari".
+Totusi, Cosmin pare ca nu vrea sa te lase in pace. Te roaga sa il intrebi despre alt subiect.
+
+1. Arhitectura
+2. Optimizari
+3. Efecte
+4. Magie neagra
+5. Raytracing
+e. Il ignori si mergi mai departe prin padure.
+
+> e
+
+Il lasi pe Cosmin cu ochii in soare si iti vezi mai departe de drum.
+* to be continued. maybe add some funny scene here *
