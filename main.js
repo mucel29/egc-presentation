@@ -3,14 +3,14 @@
 // ==========================================
 
 // SET THIS TO TRUE TO SKIP ANIMATION WHILE CODING
-const SKIP_BOOT = true; 
+const SKIP_BOOT = false;
 
 // YOUR DETAILS
 const STUDENT_NAME = "Student: Asavoae Cosmin-Ștefan";
 const STUDENT_GROUP = "Grupa:   331CD";
-const GITHUB_LABEL  = "GitHub:  ";
-const GITHUB_TEXT   = "github.com/mucel29"; 
-const GITHUB_URL    = "https://github.com/mucel29"; 
+const GITHUB_LABEL = "GitHub:  ";
+const GITHUB_TEXT = "github.com/mucel29";
+const GITHUB_URL = "https://github.com/mucel29";
 
 const ASCII_HEADER = `
   _____   _____   _   _           __  __   ______   __  __    ____    _____    ___   ______ 
@@ -52,7 +52,7 @@ const SCENES = {
             { key: '1', label: 'Arhitectură (ECS)', next: 'architecture_menu' },
             { key: '2', label: 'Optimizări', next: 'optimization_menu' },
             { key: '3', label: 'Efecte Vizuale', next: 'effects_menu' },
-            { key: '4', label: 'Ray Tracing', next: 'raytracing_menu' }, 
+            { key: '4', label: 'Ray Tracing', next: 'raytracing_menu' },
             { key: '5', label: 'Magie Neagră', next: 'magic_menu' }
         ]
     },
@@ -93,7 +93,7 @@ const SCENES = {
         ]
     },
     'post_presentation': {
-        options: [] 
+        options: []
     }
 };
 
@@ -231,7 +231,7 @@ function getEasterEggResponse(cmd) {
 const outputDiv = document.getElementById('output-area');
 
 // State Management
-let appState = 'BOOTING'; 
+let appState = 'BOOTING';
 let currentSceneId = 'start';
 let lastMenuId = 'start';
 let currentOptions = [];
@@ -248,14 +248,14 @@ function clearOutput() { outputDiv.innerHTML = ''; }
 function scrollToBottom() { outputDiv.scrollTop = outputDiv.scrollHeight; }
 
 function typeText(text, callback) {
-    if (!text) { if(callback) callback(); return; }
+    if (!text) { if (callback) callback(); return; }
     isTyping = true;
     const p = document.createElement('div');
     p.style.whiteSpace = 'pre-wrap';
     outputDiv.appendChild(p);
-    
+
     let i = 0;
-    const speed = 2; 
+    const speed = 2;
     function charLoop() {
         if (i < text.length) {
             p.textContent += text.charAt(i);
@@ -272,10 +272,10 @@ function typeText(text, callback) {
 
 function renderOptions(options) {
     currentOptions = options;
-    
+
     // Auto-select the first option
     selectedOptionIndex = 0;
-    
+
     // Pre-fill input buffer with first option key if available
     if (options.length > 0) {
         inputBuffer = options[0].key;
@@ -286,7 +286,7 @@ function renderOptions(options) {
     const listContainer = document.createElement('div');
     listContainer.id = 'active-options-list';
     listContainer.style.marginTop = '1rem';
-    
+
     options.forEach((opt, index) => {
         const div = document.createElement('div');
         div.className = 'choice';
@@ -297,7 +297,7 @@ function renderOptions(options) {
         listContainer.appendChild(div);
     });
     outputDiv.appendChild(listContainer);
-    
+
     // Apply visual selection to the default (0)
     updateSelectionVisuals();
     scrollToBottom();
@@ -378,23 +378,23 @@ async function runBootSequence() {
     linkA.href = GITHUB_URL;
     linkA.innerText = GITHUB_TEXT;
     linkA.target = "_blank";
-    linkA.style.color = "#fff"; 
+    linkA.style.color = "#fff";
     linkA.style.textDecoration = "none";
     linkA.style.borderBottom = "1px solid #fff";
-    
+
     githubLine.appendChild(labelSpan);
     githubLine.appendChild(linkA);
     outputDiv.appendChild(githubLine);
-    
+
     scrollToBottom();
 
     const startLine = document.createElement('div');
     startLine.innerText = "PRESS ANY KEY TO INITIALIZE...";
     outputDiv.appendChild(startLine);
-    
+
     outputDiv.appendChild(document.createElement('div'));
     outputDiv.appendChild(document.createElement('div'));
-    
+
     scrollToBottom();
 
     appState = 'WAIT_FOR_START';
@@ -410,21 +410,21 @@ function loadScene(sceneId) {
     currentSceneId = sceneId;
     inputBuffer = "";
     selectedOptionIndex = -1;
-    
+
     let sceneData = SCENES[sceneId];
     if (sceneId === 'post_presentation') {
-        sceneData = { ...SCENES['post_presentation'] }; 
+        sceneData = { ...SCENES['post_presentation'] };
         sceneData.options = SCENES[lastMenuId].options;
-    } 
+    }
     else if (sceneId.includes('menu') || sceneId === 'start') {
         lastMenuId = sceneId;
     }
 
     const dynamicText = getSceneText(sceneId, previousId);
-    
+
     if (sceneId === 'start') {
         if (!hasBooted) {
-            hasBooted = true; 
+            hasBooted = true;
         } else {
             clearOutput();
         }
@@ -434,7 +434,7 @@ function loadScene(sceneId) {
 
     typeText(dynamicText, () => {
         if (sceneData.options) renderOptions(sceneData.options);
-        createPrompt(); 
+        createPrompt();
     });
 }
 
@@ -443,10 +443,10 @@ function submitCommand() {
     const lastCursor = document.querySelector('.cursor');
     if (lastCursor) lastCursor.remove();
 
-    if (cmd === 'clear' || cmd === 'cls') { 
+    if (cmd === 'clear' || cmd === 'cls') {
         clearOutput();
-        loadScene(currentSceneId); 
-        return; 
+        loadScene(currentSceneId);
+        return;
     }
 
     const match = currentOptions.find(o => o.key === cmd);
@@ -458,12 +458,12 @@ function submitCommand() {
             loadScene(match.next);
         } else if (match.action === 'reboot') {
             hasBooted = false;
-            runBootSequence(); 
+            runBootSequence();
         }
     } else {
         const response = getEasterEggResponse(cmd);
         const errorMsg = document.createElement('div');
-        errorMsg.style.color = '#ff9999'; 
+        errorMsg.style.color = '#ff9999';
         errorMsg.style.marginTop = '5px';
         errorMsg.style.marginBottom = '15px';
         errorMsg.style.whiteSpace = 'pre-wrap';
@@ -479,7 +479,7 @@ async function startPresentation(filename) {
     lastPresentedFile = filename;
     clearOutput();
     inputBuffer = "";
-    
+
     const loadingMsg = document.createElement('div');
     loadingMsg.className = 'hint';
     loadingMsg.innerText = `FETCHING DATA FROM ./slides/${filename}.md ...`;
@@ -488,16 +488,19 @@ async function startPresentation(filename) {
     try {
         const response = await fetch(`./slides/${filename}.md`);
         if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
-        
+
         const rawMarkdown = await response.text();
-        loadingMsg.remove(); 
+        loadingMsg.remove();
 
         const html = marked.parse(rawMarkdown);
         const splitSlides = html.split('<hr>');
 
-        outputDiv.innerHTML = splitSlides.map((content, i) => 
+        outputDiv.innerHTML = splitSlides.map((content, i) =>
             `<div class="slide" id="slide-${i}">${content}</div>`
         ).join('');
+
+        // Apply syntax highlighting
+        hljs.highlightAll();
 
         const hint = document.createElement('div');
         hint.className = 'hint';
@@ -506,12 +509,12 @@ async function startPresentation(filename) {
 
         slides = document.querySelectorAll('.slide');
         currentSlideIdx = 0;
-        
-        if(slides.length > 0) {
-            slides[0].classList.add('active'); 
-            slides[0].classList.add('current'); 
+
+        if (slides.length > 0) {
+            slides[0].classList.add('active');
+            slides[0].classList.add('current');
         }
-        
+
         createPrompt();
 
     } catch (error) {
@@ -555,20 +558,20 @@ function exitPresentation() {
 // --- CONTROLS ---
 
 document.addEventListener('keydown', (e) => {
-    
+
     // 1. BOOT PHASE
-    if (appState === 'BOOTING') return; 
-    
+    if (appState === 'BOOTING') return;
+
     if (appState === 'WAIT_FOR_START') {
         initGame();
         return;
     }
-    
-    if (isTyping) return; 
+
+    if (isTyping) return;
 
     // 2. PRESENTATION PHASE
     if (appState === 'PRESENTATION') {
-        
+
         if (e.key === 'Escape') {
             e.preventDefault();
             exitPresentation();
@@ -582,7 +585,7 @@ document.addEventListener('keydown', (e) => {
             e.preventDefault();
             const slideBottomPos = currentSlideEl.offsetTop + currentSlideEl.offsetHeight;
             const currentViewBottom = outputDiv.scrollTop + outputDiv.clientHeight;
-            
+
             if (currentViewBottom >= slideBottomPos - 5) {
                 nextSlide();
             } else {
@@ -621,7 +624,7 @@ document.addEventListener('keydown', (e) => {
                 else selectedOptionIndex = Math.max(0, selectedOptionIndex - 1);
                 updateSelectionVisuals();
             }
-        } 
+        }
         else if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (currentOptions.length > 0) {
@@ -630,7 +633,7 @@ document.addEventListener('keydown', (e) => {
                 updateSelectionVisuals();
             }
         }
-        else if (e.key === 'Enter') { submitCommand(); } 
+        else if (e.key === 'Enter') { submitCommand(); }
         else if (e.key === 'Backspace') {
             inputBuffer = inputBuffer.slice(0, -1);
             updatePromptText();
