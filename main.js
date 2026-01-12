@@ -3,7 +3,7 @@
 // ==========================================
 
 // SET THIS TO TRUE TO SKIP ANIMATION WHILE CODING
-const SKIP_BOOT = false;
+const SKIP_BOOT = true;
 
 // YOUR DETAILS
 const STUDENT_NAME = "Student: Asavoae Cosmin-Ștefan";
@@ -48,43 +48,43 @@ const SCENES = {
     'start': {
         options: [
             // Exit/Ignore moved to 0 at the top
-            { key: '0', label: 'Ignoră-l.', next: 'exit_ignore' },
             { key: '1', label: 'Arhitectură (ECS)', next: 'architecture_menu' },
             { key: '2', label: 'Optimizări', next: 'optimization_menu' },
             { key: '3', label: 'Efecte Vizuale', next: 'effects_menu' },
             { key: '4', label: 'Ray Tracing', next: 'raytracing_menu' },
-            { key: '5', label: 'Magie Neagră', next: 'magic_menu' }
+            { key: '5', label: 'Magie Neagră', next: 'magic_menu' },
+            { key: '0', label: 'Ignoră-l.', next: 'exit_ignore' }
         ]
     },
     'optimization_menu': {
         options: [
-            { key: '0', label: 'Întoarce-te', next: 'start' },
-            { key: '1', label: 'Batch Rendering vs Instancing', action: 'present', file: 'batching' },
-            { key: '2', label: 'Frustum Culling', action: 'present', file: 'batching' }
+            { key: '1', label: 'Batch Rendering', action: 'present', file: 'batching' },
+            { key: '2', label: 'Frustum Culling', action: 'present', file: 'batching' },
+            { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'architecture_menu': {
         options: [
-            { key: '0', label: 'Întoarce-te', next: 'start' },
-            { key: '1', label: 'Entity Component System', action: 'present', file: 'ecs' }
+            { key: '1', label: 'Entity Component System', action: 'present', file: 'ecs' },
+            { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'effects_menu': {
         options: [
-            { key: '0', label: 'Întoarce-te', next: 'start' },
-            { key: '1', label: 'Bloom & Post-Processing', action: 'present', file: 'bloom' }
+            { key: '1', label: 'Bloom & Post-Processing', action: 'present', file: 'bloom' },
+            { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'raytracing_menu': {
         options: [
-            { key: '0', label: 'Întoarce-te', next: 'start' },
-            { key: '1', label: 'Monte Carlo Integration', action: 'present', file: 'raytracing' }
+            { key: '1', label: 'Intorducere in Path Tracing', action: 'present', file: 'raytracing' },
+            { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'magic_menu': {
         options: [
-            { key: '0', label: 'Întoarce-te', next: 'start' },
-            { key: '1', label: 'Fast Inverse Square Root', action: 'present', file: 'hacks' }
+            { key: '1', label: 'Fast Inverse Square Root', action: 'present', file: 'hacks' },
+            { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'exit_ignore': {
@@ -501,6 +501,11 @@ async function startPresentation(filename) {
 
         // Apply syntax highlighting
         hljs.highlightAll();
+
+        // Render MathJax formulas
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            await window.MathJax.typesetPromise();
+        }
 
         const hint = document.createElement('div');
         hint.className = 'hint';
