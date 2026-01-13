@@ -501,6 +501,9 @@ async function startPresentation(filename) {
             `<div class="slide" id="slide-${i}">${content}</div>`
         ).join('');
 
+        // Force all links to open in new tab
+        outputDiv.querySelectorAll('a').forEach(a => a.target = '_blank');
+
         // Apply syntax highlighting
         hljs.highlightAll();
 
@@ -564,6 +567,84 @@ function exitPresentation() {
 
 // --- CONTROLS ---
 
+
+function attemptNextSlide() {
+    if (slides.length === 0) return;
+    const currentSlideEl = slides[currentSlideIdx];
+    const slideBottomPos = currentSlideEl.offsetTop + currentSlideEl.offsetHeight;
+    const currentViewBottom = outputDiv.scrollTop + outputDiv.clientHeight;
+
+    if (currentViewBottom >= slideBottomPos - 5) {
+        nextSlide();
+    } else {
+        const scrollAmount = outputDiv.clientHeight - 80;
+        outputDiv.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+    }
+}
+
+function attemptPrevSlide() {
+    if (slides.length === 0) return;
+    const currentSlideEl = slides[currentSlideIdx];
+    const slideTopPos = currentSlideEl.offsetTop;
+    const currentScroll = outputDiv.scrollTop;
+
+    if (currentScroll <= slideTopPos + 5) {
+        prevSlide();
+    } else {
+        const scrollAmount = outputDiv.clientHeight - 80;
+        outputDiv.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+    }
+}
+
+// --- CONTROLS ---
+
+let touchStartY = 0;
+let touchStartX = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    // 1. BOOT PHASE
+    if (appState === 'WAIT_FOR_START') {
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchEndX = e.changedTouches[0].clientX;
+
+        // Prevent boot on scroll
+        if (Math.abs(touchEndY - touchStartY) > 10 || Math.abs(touchEndX - touchStartX) > 10) return;
+
+        initGame();
+        return;
+    }
+
+    // 2. PRESENTATION PHASE
+    if (appState === 'PRESENTATION') {
+        const touchEndY = e.changedTouches[0].clientY;
+        const touchEndX = e.changedTouches[0].clientX;
+
+        // DETECTION: If moved significant amount, it's a SCROLL/SWIPE -> Ignore
+        if (Math.abs(touchEndY - touchStartY) > 10 || Math.abs(touchEndX - touchStartX) > 10) {
+            return;
+        }
+
+        // Check if user tapped a link - if so, DO NOT Navigate
+        if (e.target.closest('a')) return;
+
+        // It was a TAP
+        const windowHeight = window.innerHeight;
+
+        if (touchEndY < windowHeight / 2) {
+            // Upper half -> Go Back
+            attemptPrevSlide();
+        } else {
+            // Lower half -> Advance
+            attemptNextSlide();
+        }
+    }
+}, { passive: true });
+
 document.addEventListener('keydown', (e) => {
 
     if (appState === 'BOOTING') return;
@@ -583,32 +664,14 @@ document.addEventListener('keydown', (e) => {
             return;
         }
 
-        const currentSlideEl = slides[currentSlideIdx];
-
         // GOING DOWN
         if (['ArrowDown', ' ', 'Enter'].includes(e.key)) {
             e.preventDefault();
-            const slideBottomPos = currentSlideEl.offsetTop + currentSlideEl.offsetHeight;
-            const currentViewBottom = outputDiv.scrollTop + outputDiv.clientHeight;
-
-            if (currentViewBottom >= slideBottomPos - 5) {
-                nextSlide();
-            } else {
-                const scrollAmount = outputDiv.clientHeight - 80;
-                outputDiv.scrollBy({ top: scrollAmount, behavior: 'smooth' });
-            }
+            attemptNextSlide();
         }
         else if (e.key === 'ArrowUp' || e.key === 'Backspace' || e.key === 'ArrowLeft') {
             e.preventDefault();
-            const slideTopPos = currentSlideEl.offsetTop;
-            const currentScroll = outputDiv.scrollTop;
-
-            if (currentScroll <= slideTopPos + 5) {
-                prevSlide();
-            } else {
-                const scrollAmount = outputDiv.clientHeight - 80;
-                outputDiv.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
-            }
+            attemptPrevSlide();
         }
         return;
     }

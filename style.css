@@ -148,6 +148,42 @@ pre.ascii-art::-webkit-scrollbar {
     font-size: 6px;
     /* Hardcoded safe size for mobile */
   }
+
+  .prompt-line {
+    display: none !important;
+  }
+
+  /* Make tables scrollable on mobile */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: normal;
+    /* Allow wrapping */
+    font-size: 0.8em;
+  }
+
+  th,
+  td {
+    min-width: 120px;
+    /* Ensure columns don't get squashed */
+  }
+
+  /* Mobile Buttons */
+  .choice {
+    border: 1px dashed var(--term-dim) !important;
+    margin-bottom: 25px !important;
+    /* Force larger spacing */
+    padding: 15px !important;
+    display: block !important;
+  }
+
+  /* Remove the default highlight on mobile */
+  .choice.active-selection {
+    background-color: transparent !important;
+    color: var(--term-green) !important;
+    border-left: 1px solid var(--term-dim) !important;
+    opacity: 0.9;
+  }
 }
 
 /* Markdown specific styles (Inside slides) */
