@@ -117,5 +117,5 @@ glDrawArraysInstanced(GL_TRIANGLES, 0, instance_vertices.size(), instance_data.s
 
 ### Pentru cei interesati
 
-* [1] [LearnOpenGL - Instancing](https://learnopengl.com/Advanced-OpenGL/Instancing)
-* [2] [ThinMatrix - OpenGL 3D Game Tutorial 13: Optimizing](https://www.youtube.com/watch?v=X6KjDwA7mZg)
+* [1] [_LearnOpenGL - Instancing_](https://learnopengl.com/Advanced-OpenGL/Instancing)
+* [2] [_ThinMatrix - OpenGL 3D Game Tutorial 13: Optimizing_](https://www.youtube.com/watch?v=X6KjDwA7mZg)

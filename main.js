@@ -2,10 +2,8 @@
 // CONFIGURATION
 // ==========================================
 
-// SET THIS TO TRUE TO SKIP ANIMATION WHILE CODING
-const SKIP_BOOT = true;
+const SKIP_BOOT = false;
 
-// YOUR DETAILS
 const STUDENT_NAME = "Student: Asavoae Cosmin-Ștefan";
 const STUDENT_GROUP = "Grupa:   331CD";
 const GITHUB_LABEL = "GitHub:  ";
@@ -47,7 +45,6 @@ const BOOT_LOG = [
 const SCENES = {
     'start': {
         options: [
-            // Exit/Ignore moved to 0 at the top
             { key: '1', label: 'Arhitectură (ECS)', next: 'architecture_menu' },
             { key: '2', label: 'Optimizări', next: 'optimization_menu' },
             { key: '3', label: 'Efecte Vizuale', next: 'effects_menu' },
@@ -77,7 +74,8 @@ const SCENES = {
     },
     'raytracing_menu': {
         options: [
-            { key: '1', label: 'Intorducere in Path Tracing', action: 'present', file: 'raytracing' },
+            { key: '1', label: 'Introducere in Path Tracing', action: 'present', file: 'raytracing' },
+            { key: '2', label: 'Partitionare Spatiala', action: 'present', file: 'space_part' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -179,6 +177,13 @@ function getSceneText(sceneId, lastId) {
             "Cosmin se pierde uitându-se într-o oglindă care reflectă o oglindă. 'Recursivitatea e infinită...'"
         ]);
 
+        if (lastPresentedFile === 'space_part') return getRandom([
+            "Cosmin desenează un arbore în aer. 'De la O(N) la O(log N)... e ca și cum ai primi timp cadou.'",
+            "Cosmin ia o cutie de pantofi și pune o altă cutie mai mică în ea. 'BVH în viața reală.'",
+            "Cosmin râde: 'Să verifici 1 milion de triunghiuri? Niciodată. Verifici 20 de cutii și gata.'",
+            "Cosmin se uită la Octree-ul din colț: 'E bun pentru Minecraft, dar noi facem artă aici, nu cuburi.'"
+        ]);
+
         if (lastPresentedFile === 'hacks') return getRandom([
             "Cosmin scrie 0x5f3759df pe tablă. 'Nu întreba de ce funcționează. Doar bucură-te că e rapid.'",
             "Cosmin se spală repede pe mâini. 'Bit shifting-ul ăla a fost ilegal, să nu ne vadă nimeni.'",
@@ -273,10 +278,8 @@ function typeText(text, callback) {
 function renderOptions(options) {
     currentOptions = options;
 
-    // Auto-select the first option
     selectedOptionIndex = 0;
 
-    // Pre-fill input buffer with first option key if available
     if (options.length > 0) {
         inputBuffer = options[0].key;
     } else {
@@ -298,7 +301,6 @@ function renderOptions(options) {
     });
     outputDiv.appendChild(listContainer);
 
-    // Apply visual selection to the default (0)
     updateSelectionVisuals();
     scrollToBottom();
 }
@@ -564,7 +566,6 @@ function exitPresentation() {
 
 document.addEventListener('keydown', (e) => {
 
-    // 1. BOOT PHASE
     if (appState === 'BOOTING') return;
 
     if (appState === 'WAIT_FOR_START') {
@@ -574,7 +575,6 @@ document.addEventListener('keydown', (e) => {
 
     if (isTyping) return;
 
-    // 2. PRESENTATION PHASE
     if (appState === 'PRESENTATION') {
 
         if (e.key === 'Escape') {
@@ -598,7 +598,6 @@ document.addEventListener('keydown', (e) => {
                 outputDiv.scrollBy({ top: scrollAmount, behavior: 'smooth' });
             }
         }
-        // GOING UP
         else if (e.key === 'ArrowUp' || e.key === 'Backspace' || e.key === 'ArrowLeft') {
             e.preventDefault();
             const slideTopPos = currentSlideEl.offsetTop;
@@ -614,7 +613,6 @@ document.addEventListener('keydown', (e) => {
         return;
     }
 
-    // 3. MENU PHASE
     if (appState === 'MENU') {
         if (e.key === 'Escape') {
             const backOption = currentOptions.find(o => o.key === '0');
