@@ -47,7 +47,7 @@ const SCENES = {
         options: [
             { key: '1', label: 'Arhitectură (ECS)', next: 'architecture_menu' },
             { key: '2', label: 'Optimizări', next: 'optimization_menu' },
-            { key: '3', label: 'Efecte Vizuale', next: 'effects_menu' },
+            { key: '3', label: 'Tehnici', next: 'techniques_menu' },
             { key: '4', label: 'Ray Tracing', next: 'raytracing_menu' },
             { key: '5', label: 'Magie Neagră', next: 'magic_menu' },
             { key: '0', label: 'Ignoră-l.', next: 'exit_ignore' }
@@ -66,9 +66,10 @@ const SCENES = {
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
-    'effects_menu': {
+    'techniques_menu': {
         options: [
-            { key: '1', label: 'Bloom & Post-Processing', action: 'present', file: 'bloom' },
+            { key: '1', label: 'Mouse Picking (Color)', action: 'present', file: 'mouse_picking_color' },
+            { key: '2', label: 'Mouse Picking (Ray Casting)', action: 'present', file: 'mouse_picking_color' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -136,6 +137,25 @@ function getSceneText(sceneId, lastId) {
         "Cosmin își pune ochelari de soare pixelati. 'Să vorbim despre Bloom și cum să orbești jucătorul.'"
     ]);
 
+    if (sceneId === 'techniques_menu') return getRandom([
+        // General / Intro
+        "Cosmin deschide o trusă de scule virtuală. 'Aici transformăm matematica abstractă în ceva utilizabil. Fără astea, e doar un screensaver scump.'",
+
+        // Mouse Picking
+        "Cosmin urmărește cursorul cu privirea. 'Ecranul e 2D, lumea e 3D. Să afli pe ce ai dat click e o problemă de geometrie analitică sau... o șmecherie cu culori.'",
+
+        // Text Rendering
+        "Cosmin oftează uitându-se la un atlas de fonturi. 'Toată lumea crede că să randezi text e simplu. Până când vezi cum arată kerning-ul și SDF-urile.'",
+        "Cosmin aranjează litere într-o textură. 'Să desenezi un dragon cu 1 milion de poligoane? Ușor. Să scrii \"Hello World\" clar la orice rezoluție? Asta e adevărata provocare.'",
+
+        // Model Animations (Collada/Skeletal)
+        "Cosmin se luptă cu un fișier `.dae` (Collada). 'Un XML de 5000 de linii doar ca să miște mâna stângă. Skinning-ul e magie neagră cu matrici.'",
+        "Cosmin verifică osatura unui model 3D. 'Vertex Shader-ul trebuie să știe de care os aparține fiecare vârf. Un calcul greșit și personajul arată ca o pungă de spaghete.'",
+
+        // Mix
+        "Cosmin: 'Avem text, avem animații, avem mouse. Practic, avem un engine. Mai rămâne doar să facem jocul... cândva.'"
+    ]);
+
     if (sceneId === 'raytracing_menu') return getRandom([
         "Cosmin scoate o riglă și începe să măsoare raze de lumină în aer. 'Asta e fizică pură.'",
         "Cosmin ascultă ventilatoarele GPU-ului cum urlă. 'Intrăm în zona grea. Sper că ai răcire bună.'",
@@ -182,6 +202,13 @@ function getSceneText(sceneId, lastId) {
             "Cosmin ia o cutie de pantofi și pune o altă cutie mai mică în ea. 'BVH în viața reală.'",
             "Cosmin râde: 'Să verifici 1 milion de triunghiuri? Niciodată. Verifici 20 de cutii și gata.'",
             "Cosmin se uită la Octree-ul din colț: 'E bun pentru Minecraft, dar noi facem artă aici, nu cuburi.'"
+        ]);
+
+        if (lastPresentedFile === 'picking_color') return getRandom([
+            "Cosmin rânjește: 'De ce să faci matematică de clasa a 12-a când poți doar să desenezi culori?'",
+            "Cosmin aprobă: 'E pixel perfect. Dacă dai click pe un pixel transparent, nu selectezi nimic. Ray casting-ul ar fi plâns aici.'",
+            "Cosmin se încruntă puțin: 'glReadPixels... Acel moment când CPU-ul stă și așteaptă după GPU. Dar pentru un editor, merge.'",
+            "Ai transformat ecranul într-un tabel uriaș de ID-uri. O soluție elegantă pentru oameni leneși... pardon, eficienți."
         ]);
 
         if (lastPresentedFile === 'hacks') return getRandom([

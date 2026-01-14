@@ -210,6 +210,12 @@ code {
   color: #fff;
 }
 
+/* Italic text styling */
+em,
+i {
+  color: #666666;
+}
+
 /* Code blocks inside markdown */
 .slide pre {
   background: #112211;
