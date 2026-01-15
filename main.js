@@ -70,6 +70,7 @@ const SCENES = {
         options: [
             { key: '1', label: 'Mouse Picking (Color)', action: 'present', file: 'mouse_picking_color' },
             { key: '2', label: 'Mouse Picking (Ray Casting)', action: 'present', file: 'mouse_picking_ray' },
+            { key: '3', label: 'Text Rendering', action: 'present', file: 'text_rendering' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -216,6 +217,13 @@ function getSceneText(sceneId, lastId) {
             "Cosmin verifică formulele: 'Inversa proiecției înmulțită cu inversa view-ului... Da, raza pleacă din ochiul camerei.'",
             "Cosmin te avertizează: 'Ai grijă la Bounding Box-uri. Dacă sunt prea mari, o să dai click pe aer și o să selectezi copacul din spate.'",
             "Cosmin: 'Matematică pură. Dacă combini asta cu BVH-ul de mai devreme, ai un sistem de fizică în toată regula.'"
+        ]);
+
+        if (lastPresentedFile === 'text_rendering') return getRandom([
+            "Cosmin își freacă ochii: 'Dacă mai aud de Kerning o dată, mă las de meserie și mă fac olar.'",
+            "Cosmin aprobă SDF-ul: 'Valve a schimbat lumea cu paper-ul ăla. Să poți scala textul infinit fără pixelare? Genial.'",
+            "Cosmin: 'Ai implementat bin-packing pentru atlas? Curajos. Majoritatea oamenilor cedează nervos și folosesc stb_rect_pack.'",
+            "Cosmin se uită la litera 'g': 'Descender-ul ăla îmi dă bătăi de cap la aliniere verticală...'"
         ]);
 
         if (lastPresentedFile === 'hacks') return getRandom([
