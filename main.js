@@ -69,7 +69,7 @@ const SCENES = {
     'techniques_menu': {
         options: [
             { key: '1', label: 'Mouse Picking (Color)', action: 'present', file: 'mouse_picking_color' },
-            { key: '2', label: 'Mouse Picking (Ray Casting)', action: 'present', file: 'mouse_picking_color' },
+            { key: '2', label: 'Mouse Picking (Ray Casting)', action: 'present', file: 'mouse_picking_ray' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -204,11 +204,18 @@ function getSceneText(sceneId, lastId) {
             "Cosmin se uită la Octree-ul din colț: 'E bun pentru Minecraft, dar noi facem artă aici, nu cuburi.'"
         ]);
 
-        if (lastPresentedFile === 'picking_color') return getRandom([
+        if (lastPresentedFile === 'mouse_picking_color') return getRandom([
             "Cosmin rânjește: 'De ce să faci matematică de clasa a 12-a când poți doar să desenezi culori?'",
             "Cosmin aprobă: 'E pixel perfect. Dacă dai click pe un pixel transparent, nu selectezi nimic. Ray casting-ul ar fi plâns aici.'",
             "Cosmin se încruntă puțin: 'glReadPixels... Acel moment când CPU-ul stă și așteaptă după GPU. Dar pentru un editor, merge.'",
             "Ai transformat ecranul într-un tabel uriaș de ID-uri. O soluție elegantă pentru oameni leneși... pardon, eficienți."
+        ]);
+
+        if (lastPresentedFile === 'mouse_picking_ray') return getRandom([
+            "Cosmin aprobă: 'Așa se face profesionist. Ții GPU-ul liber pentru randare, nu pentru citit pixeli.'",
+            "Cosmin verifică formulele: 'Inversa proiecției înmulțită cu inversa view-ului... Da, raza pleacă din ochiul camerei.'",
+            "Cosmin te avertizează: 'Ai grijă la Bounding Box-uri. Dacă sunt prea mari, o să dai click pe aer și o să selectezi copacul din spate.'",
+            "Cosmin: 'Matematică pură. Dacă combini asta cu BVH-ul de mai devreme, ai un sistem de fizică în toată regula.'"
         ]);
 
         if (lastPresentedFile === 'hacks') return getRandom([
