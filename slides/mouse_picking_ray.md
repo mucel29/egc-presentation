@@ -82,11 +82,12 @@ Entity pick(vec2 screen_position) {
 ## Caracteristici
 
 > * `Rapid` &mdash; tot calculul are loc pe procesor, inainte sa randam scena
-> * * _(pentru un numar mare de obiecte este nevoie sa folosim structuri de accelerare)_
+> * * _pentru un numar mare de obiecte este nevoie sa folosim structuri de accelerare_
+> * * _vezi `Ray Tracing - Partitionare Spatiala`_
 > * `Scalabil` &mdash; putem avea un numar nelimitat de obiecte in scena
 > * `Aproximativ` &mdash; nu ne ofera acuratete pixel perfect
-> * * _(bun pentru selectii generale si dragging, unde precizia nu este critica)_
-> * * _(putem avea probleme cand obiectele se suprapun)_
+> * * _bun pentru selectii generale si dragging, unde precizia nu este critica_
+> * * _putem avea probleme cand obiectele se suprapun_
 
 ---
 

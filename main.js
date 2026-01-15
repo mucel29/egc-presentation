@@ -45,45 +45,39 @@ const BOOT_LOG = [
 const SCENES = {
     'start': {
         options: [
-            { key: '1', label: 'Arhitectură (ECS)', next: 'architecture_menu' },
-            { key: '2', label: 'Optimizări', next: 'optimization_menu' },
-            { key: '3', label: 'Tehnici', next: 'techniques_menu' },
-            { key: '4', label: 'Ray Tracing', next: 'raytracing_menu' },
-            { key: '5', label: 'Magie Neagră', next: 'magic_menu' },
+            { key: '1', label: 'Optimizări', next: 'optimization_menu' },
+            { key: '2', label: 'Tehnici', next: 'techniques_menu' },
+            { key: '3', label: 'Ray Tracing', next: 'raytracing_menu' },
+            { key: '4', label: 'Post-Procesare', next: 'effects_menu' },
             { key: '0', label: 'Ignoră-l.', next: 'exit_ignore' }
         ]
     },
     'optimization_menu': {
         options: [
-            { key: '1', label: 'Batch Rendering', action: 'present', file: 'batching' },
+            { key: '1', label: 'Batch Rendering [M]', action: 'present', file: 'batching' },
             { key: '2', label: 'Frustum Culling', action: 'present', file: 'batching' },
-            { key: '0', label: 'Întoarce-te', next: 'start' }
-        ]
-    },
-    'architecture_menu': {
-        options: [
-            { key: '1', label: 'Entity Component System', action: 'present', file: 'ecs' },
+            { key: '3', label: 'Fast Inverse Square Root [S][AI]', action: 'present', file: 'hacks' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'techniques_menu': {
         options: [
-            { key: '1', label: 'Mouse Picking (Color)', action: 'present', file: 'mouse_picking_color' },
-            { key: '2', label: 'Mouse Picking (Ray Casting)', action: 'present', file: 'mouse_picking_ray' },
-            { key: '3', label: 'Text Rendering', action: 'present', file: 'text_rendering' },
+            { key: '1', label: 'Mouse Picking (Color) [M]', action: 'present', file: 'mouse_picking_color' },
+            { key: '2', label: 'Mouse Picking (Ray Casting) [M]', action: 'present', file: 'mouse_picking_ray' },
+            { key: '3', label: 'Text Rendering [L]', action: 'present', file: 'text_rendering' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
     'raytracing_menu': {
         options: [
-            { key: '1', label: 'Introducere in Path Tracing', action: 'present', file: 'raytracing' },
-            { key: '2', label: 'Partitionare Spatiala', action: 'present', file: 'space_part' },
+            { key: '1', label: 'Introducere in Path Tracing [XL]', action: 'present', file: 'raytracing' },
+            { key: '2', label: 'Partitionare Spatiala [L]', action: 'present', file: 'space_part' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
-    'magic_menu': {
+    'effects_menu': {
         options: [
-            { key: '1', label: 'Fast Inverse Square Root', action: 'present', file: 'hacks' },
+            { key: '1', label: 'Bloom', action: 'present', file: 'bloom' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -199,12 +193,6 @@ function getSceneText(sceneId, lastId) {
         "Cosmin dă din mână a lehamite: 'Rasterizarea e o minciună. Ray tracing-ul e realitatea.'"
     ]);
 
-    if (sceneId === 'magic_menu') return getRandom([
-        "Cosmin se uită în stânga și în dreapta, paranoic. 'Astea nu sunt în manualul profului.'",
-        "Cosmin scoate o carte de vrăji C++. 'Aici vorbim despre bit shifting și pointer casting ilegal.'",
-        "Cosmin zâmbește viclean. 'Uneori matematica e doar o sugestie, dacă știi cum să o convingi.'"
-    ]);
-
     if (sceneId === 'post_presentation') {
         if (lastPresentedFile === 'ecs') return getRandom([
             "Cosmin aranjează datele în linii drepte. 'Vezi? Cache-ul procesorului plânge de fericire acum.'",
@@ -263,6 +251,8 @@ function getSceneText(sceneId, lastId) {
         ]);
 
         if (lastPresentedFile === 'hacks') return getRandom([
+            "Cosmin se uită în stânga și în dreapta, paranoic. 'Astea nu sunt în manualul profului.'",
+            "Cosmin zâmbește viclean. 'Uneori matematica e doar o sugestie, dacă știi cum să o convingi.'",
             "Cosmin scrie 0x5f3759df pe tablă. 'Nu întreba de ce funcționează. Doar bucură-te că e rapid.'",
             "Cosmin se spală repede pe mâini. 'Bit shifting-ul ăla a fost ilegal, să nu ne vadă nimeni.'",
             "Cosmin mângâie manualul de matematică. 'Șt, șt, nu plânge. Rezultatul e suficient de precis.'",
