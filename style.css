@@ -22,6 +22,7 @@ body {
   a {
     color: #fff;
     text-decoration: underline;
+
   }
 
   /* Prevent the whole page from scrolling */
@@ -216,6 +217,12 @@ i {
   color: #666666;
 }
 
+a em,
+a i {
+  color: inherit;
+  /* Inherits the parent color (White for links, Green for lists) */
+}
+
 /* Code blocks inside markdown */
 .slide pre {
   background: #112211;
@@ -376,4 +383,163 @@ tr:hover td {
 
 .blink {
   animation: blink 1s infinite;
+}
+
+/* =========================================
+   UTILITY CLASSES (For JS Messages)
+   ========================================= */
+.msg-error {
+  color: #ff9999;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  white-space: pre-wrap;
+}
+
+.msg-success {
+  color: var(--term-green);
+  margin-top: 10px;
+  font-weight: bold;
+  white-space: pre-wrap;
+}
+
+.msg-info {
+  color: var(--term-dim);
+  margin-top: 5px;
+  white-space: pre-wrap;
+}
+
+/* =========================================
+   LIGHT MODE (Solarized / Projector Friendly)
+   ========================================= */
+
+body.light-mode {
+  /* Solarized Light Palette */
+  --bg-color: #fdf6e3;
+  /* Creamy background (not harsh white) */
+  --term-green: #073642;
+  /* Deep Dark Teal (Main text) */
+  --term-dim: #657b83;
+  /* Greyish Teal (Dimmed text) */
+}
+
+/* 1. Remove ALL Glow/Shadows for crispness */
+body.light-mode,
+body.light-mode #terminal-container,
+body.light-mode .user-typing,
+body.light-mode pre.ascii-art {
+  text-shadow: none !important;
+}
+
+/* 2. Fix Input Text Visibility */
+body.light-mode .user-typing {
+  color: #000000;
+  /* Pure black for input to make it pop */
+  font-weight: 900;
+}
+
+/* 3. Fix Italic Flavor Text */
+body.light-mode em,
+body.light-mode i {
+  color: #859900;
+  /* Solarized Green - distinctive but readable */
+}
+
+/* Ensure Links and Lists inherit correctly */
+body.light-mode a em,
+body.light-mode a i {
+  color: inherit;
+}
+
+/* 4. Message Colors */
+body.light-mode .msg-error {
+  color: #dc322f;
+  /* Solarized Red */
+}
+
+body.light-mode .msg-info {
+  color: #b58900;
+  /* Solarized Yellow/Orange */
+}
+
+body.light-mode .msg-success {
+  color: #2aa198;
+  /* Solarized Cyan */
+}
+
+/* 5. Links */
+body.light-mode a {
+  color: #268bd2;
+  /* Solarized Blue */
+  text-decoration-color: #268bd2;
+}
+
+/* 6. Selection Color */
+body.light-mode .choice.active-selection {
+  background-color: #073642;
+  /* Dark Teal bg */
+  color: #fdf6e3;
+  /* Cream text */
+  border-left-color: #073642;
+}
+
+/* 7. Tables */
+body.light-mode th {
+  background-color: #d3d0c8;
+  /* Slightly darker cream */
+  color: #000;
+  border-bottom: 2px solid #073642;
+}
+
+body.light-mode tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+body.light-mode tr:hover td {
+  background-color: #eee8d5;
+  /* Solarized Highlight */
+  color: #000;
+}
+
+/* 8. CODE FIX: Distinguish between Inline and Blocks */
+
+/* A. Code Blocks (Pre) - Let Highlight.js handle the colors */
+body.light-mode pre {
+  background: #fdf6e3;
+  /* Match body bg */
+  border-color: #93a1a1;
+  color: #333;
+}
+
+/* B. Inline Code ONLY (:not(pre) > code) */
+/* This prevents the "Red" color from ruining the syntax highlighting blocks */
+body.light-mode :not(pre)>code {
+  background: #eee8d5;
+  color: #d33682;
+  /* Solarized Magenta for inline variables */
+  border: 1px solid #d3d0c8;
+}
+
+/* 9. ASCII Art */
+body.light-mode pre.ascii-art {
+  background: transparent;
+  color: #073642;
+  border: none;
+  font-weight: 900;
+  /* Extra bold to be visible */
+}
+
+/* 10. Misc */
+/* body.light-mode #crt-overlay {
+  display: none;
+} */
+
+body.light-mode .slide.current {
+  border-bottom-color: #073642;
+}
+
+body.light-mode .slide.current h1,
+body.light-mode .slide.current h2,
+body.light-mode .slide.current h3 {
+  color: #000;
+  border-bottom-color: #073642;
 }

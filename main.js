@@ -98,6 +98,24 @@ const SCENES = {
 };
 
 // ==========================================
+// THEME LOGIC
+// ==========================================
+
+function setTheme(mode) {
+    const highlightLink = document.getElementById('highlight-style');
+
+    if (mode === 'light') {
+        document.body.classList.add('light-mode');
+        // Swap to Solarized Light theme
+        if (highlightLink) highlightLink.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/solarized-light.min.css";
+    } else {
+        document.body.classList.remove('light-mode');
+        // Swap back to Monokai Sublime
+        if (highlightLink) highlightLink.href = "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/monokai-sublime.min.css";
+    }
+}
+
+// ==========================================
 // ENGINE: FLAVOR TEXT
 // ==========================================
 
@@ -108,7 +126,25 @@ function getRandom(arr) {
 function getSceneText(sceneId, lastId) {
     if (sceneId === 'start') {
         if (!hasBooted) {
-            return `SYSTEM BOOT... OK.\n\nTe afli într-o pădure randată procedural. În fața ta a apărut Cosmin (Entity ID: 0x01).\n\nPare nerăbdător să îți explice cum funcționează lumea din jurul tău.\n\nDespre ce vrei să îți vorbească?`;
+            if (sysRebootCount === 0) {
+                return `SYSTEM BOOT... OK.\n\nTe afli într-o pădure randată procedural. În fața ta a apărut Cosmin (Entity ID: 0x01).\n\nPare nerăbdător să îți explice cum funcționează lumea din jurul tău.\n\nDespre ce vrei să îți vorbească?`;
+            } else {
+                if (sysLastCrashType === 'MEM_DUMP') {
+                    return `SYSTEM RECOVERED FROM CRITICAL ERROR 0xDEADBEEF.\n\nCosmin se reasamblează din fragmente de memorie. Arată puțin corupt, un braț îi trece prin torace, dar zâmbește.\n\n'M-au scos din heap, dar m-am întors în stack. Ce mai vrei să știi?'`;
+                }
+                if (sysLastCrashType === 'GPU') {
+                    return `GPU DRIVER RESTORED.\n\nCosmin suflă fum din placa video. 'Era cât pe ce să prăjim tranzistorii. Hai să vorbim despre ceva mai puțin solicitant, te rog.'`;
+                }
+                if (sysLastCrashType === 'NULL_PTR') {
+                    return `POINTERS REALIGNED.\n\nCosmin verifică dacă picioarele îi ating pământul. 'N-am mai simțit așa un gol în stomac de la ultimul Segmentation Fault. Ești periculos.'`;
+                }
+                if (sysLastCrashType === 'GC') {
+                    return `MEMORY LEAKS PATCHED.\n\nCosmin scutură praful de pe el. 'Garbage Collector-ul ăla e agresiv. M-am ascuns într-o variabilă globală ca să scap.'`;
+                }
+
+                // Fallback generic
+                return `SYSTEM REBOOTED (Count: ${sysRebootCount}).\n\nCosmin se uită la tine suspect: 'Ai încercat să îl oprești și să îl pornești iar? A, stai, fix asta ai făcut.'`;
+            }
         } else {
             return getRandom([
                 "Cosmin te vede întorcându-te la `main()`. 'Mai ai întrebări sau dăm shutdown?'",
@@ -237,7 +273,63 @@ function getSceneText(sceneId, lastId) {
     }
 
     if (sceneId === 'exit_ignore') {
-        return `Te îndepărtezi de origine (0,0,0).\nDeoarece ai ieșit din "View Frustum"-ul camerei, Cosmin a fost eliminat din memorie.\n\nSystem Halted.`;
+        const hexDump = Array.from({ length: 6 }, (_, i) => {
+            const addr = (0x00400000 + i * 16).toString(16).toUpperCase();
+            const bytes = Array.from({ length: 4 }, () => Math.floor(Math.random() * 255).toString(16).padStart(2, '0').toUpperCase()).join(' ');
+            return `0x00${addr}   ${bytes} ${bytes} ${bytes} ${bytes}`;
+        }).join('\n');
+
+        // SCENARIILE POSIBILE
+        const scenarios = [
+            {
+                type: 'MEM_DUMP',
+                text: `Te îndepărtezi de origine (0,0,0).\n\n` +
+                    `Deoarece a ieșit din "View Frustum"-ul camerei, motorul grafic a decis să facă culling pe Cosmin.\n` +
+                    `Din păcate, Cosmin era o dependență hard-coded în main.cpp.\n\n` +
+                    `*** CRITICAL PROCESS DIED ***\n` +
+                    `Generare raport eroare...\n\n` +
+                    `${hexDump}\n*\n` +
+                    `0xDEADBEEF   00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00\n\n` +
+                    `>> Se pare că eliminarea lui Cosmin din memorie a dus la închiderea jocului.`
+            },
+            {
+                type: 'GPU',
+                text: `Te întorci cu spatele și încerci să pleci.\n\n` +
+                    `Cosmin se plictisește așteptând input-ul tău și decide să-și ocupe timpul recompilând toate cele 50.000 de shadere din cache.\n` +
+                    `Pe thread-ul principal.\n\n` +
+                    `[CPU Usage: 100%]\n[GPU Temp: 98°C]\n[System: Not Responding]\n\n` +
+                    `>> PC-ul tău a înghețat din solidaritate cu Cosmin.`
+            },
+            {
+                type: 'NULL_PTR',
+                text: `Încerci să îl ignori pe Cosmin, dar pointerul 'student' a devenit NULL.\n\n` +
+                    `Încercare de accesare a memoriei la adresa 0x00000000...\n` +
+                    `Segmentation fault (core dumped).\n\n` +
+                    `Cosmin strigă din buffer-ul de eroare: "Ți-am zis să nu dereferențiezi pointeri nuli!"\n\n` +
+                    `>> Sistemul s-a oprit pentru a preveni daune permanente.`
+            },
+            {
+                type: 'GC',
+                text: `Stai nemișcat, sperând că va pleca.\n\n` +
+                    `Deoarece nu există referințe active către tine în Scena curentă, Garbage Collector-ul din JavaScript te-a marcat ca "Unreachable Code".\n\n` +
+                    `Mark-and-Sweep a început.\n` +
+                    `Ștergere obiecte... [OK]\n` +
+                    `Eliberare memorie... [OK]\n\n` +
+                    `>> Ai fost colectat de gunoierul automat. La revedere.`
+            }
+        ];
+
+        let selectedScenario;
+
+        if (sysRebootCount === 0) {
+            selectedScenario = scenarios[0];
+        } else {
+            selectedScenario = getRandom(scenarios);
+        }
+
+        sysPendingCrashType = selectedScenario.type;
+
+        return selectedScenario.text;
     }
 
     return "Cosmin a întâlnit o eroare critică: Text not found in heap.";
@@ -289,6 +381,11 @@ let currentSlideIdx = 0;
 let isTyping = false;
 let hasBooted = false;
 let lastPresentedFile = "";
+
+// --- PERSISTENCE STATE ---
+let sysRebootCount = 0;
+let sysLastCrashType = "NONE"; // 'MEM_DUMP', 'GPU', 'NULL_PTR', 'GC'
+let sysPendingCrashType = "NONE"; // Ce eroare tocmai s-a afișat pe ecran
 
 // --- UTILS ---
 function clearOutput() { outputDiv.innerHTML = ''; }
@@ -422,9 +519,6 @@ async function runBootSequence() {
     linkA.href = GITHUB_URL;
     linkA.innerText = GITHUB_TEXT;
     linkA.target = "_blank";
-    linkA.style.color = "#fff";
-    linkA.style.textDecoration = "none";
-    linkA.style.borderBottom = "1px solid #fff";
 
     githubLine.appendChild(labelSpan);
     githubLine.appendChild(linkA);
@@ -493,6 +587,46 @@ function submitCommand() {
         return;
     }
 
+    if (cmd === 'light') {
+        if (document.body.classList.contains('light-mode')) {
+            // Already light -> Use Warning/Error Style (Reddish in CSS)
+            const msg = document.createElement('div');
+            msg.className = 'msg-error'; // Uniform "fail/warn" color
+            msg.innerText = ">> Te uiți la soare? Deja e lumină peste tot. Cosmin își pune ochelarii de soare.";
+            outputDiv.appendChild(msg);
+        } else {
+            // Switch to light
+            setTheme('light');
+            const msg = document.createElement('div');
+            msg.className = 'msg-success'; // Uniform success color
+            msg.innerText = ">> Cosmin a găsit prin pădure o sursă de lumină punctiformă.\n>> Știa că o să ai nevoie de niște lumină ca să citești de pe proiector.";
+            outputDiv.appendChild(msg);
+        }
+        inputBuffer = "";
+        createPrompt();
+        return;
+    }
+
+    if (cmd === 'dark') {
+        if (!document.body.classList.contains('light-mode')) {
+            // Already dark -> Use Warning/Error Style
+            const msg = document.createElement('div');
+            msg.className = 'msg-error'; // Uniform "fail/warn" color
+            msg.innerText = ">> E deja întuneric. Dacă stingi lumina mai mult de atât, o să randezi pixeli negri pe fundal negru.";
+            outputDiv.appendChild(msg);
+        } else {
+            // Switch to dark
+            setTheme('dark');
+            const msg = document.createElement('div');
+            msg.className = 'msg-success'; // Uniform success color
+            msg.innerText = ">> Se pare că developerul a creat sursele de lumină pe bază de baterii.\n>> Tu și Cosmin sunteți acum în beznă.";
+            outputDiv.appendChild(msg);
+        }
+        inputBuffer = "";
+        createPrompt();
+        return;
+    }
+
     const match = currentOptions.find(o => o.key === cmd);
 
     if (match) {
@@ -502,12 +636,22 @@ function submitCommand() {
             loadScene(match.next);
         } else if (match.action === 'reboot') {
             hasBooted = false;
+
+            // --- STATE UPDATE FOR REBOOT ---
+            sysRebootCount++;
+            sysLastCrashType = sysPendingCrashType;
+            sysPendingCrashType = "NONE";
+            // -------------------------------
+
             runBootSequence();
         }
     } else {
         const response = getEasterEggResponse(cmd);
         const errorMsg = document.createElement('div');
         errorMsg.style.color = '#ff9999';
+        if (document.body.classList.contains('light-mode'))
+            errorMsg.style.color = '#cc0000';
+
         errorMsg.style.marginTop = '5px';
         errorMsg.style.marginBottom = '15px';
         errorMsg.style.whiteSpace = 'pre-wrap';
@@ -719,6 +863,26 @@ document.addEventListener('keydown', (e) => {
     }
 
     if (appState === 'MENU') {
+        if (currentSceneId === 'exit_ignore') {
+            const k = e.key.toLowerCase();
+
+            if (k === 'r') {
+                inputBuffer = 'r';
+                updatePromptText();
+            }
+            // else if (e.key === 'Backspace') {
+            //     inputBuffer = '';
+            //     updatePromptText();
+            // }
+            else if (e.key === 'Enter') {
+                if (inputBuffer === 'r') {
+                    submitCommand();
+                }
+            }
+
+            return;
+        }
+
         if (e.key === 'Escape') {
             const backOption = currentOptions.find(o => o.key === '0');
             if (backOption) { inputBuffer = '0'; submitCommand(); }
@@ -754,5 +918,17 @@ document.addEventListener('keydown', (e) => {
 
 // STARTUP
 window.onload = () => {
+    // 1. Check System Preference
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        setTheme('light');
+    } else {
+        setTheme('dark');
+    }
+
+    // 2. Listen for system changes (optional dynamic switch)
+    window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', event => {
+        setTheme(event.matches ? 'light' : 'dark');
+    });
+
     runBootSequence();
 };
