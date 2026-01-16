@@ -78,7 +78,7 @@ const SCENES = {
     },
     'effects_menu': {
         options: [
-            { key: '1', label: 'Bloom', action: 'present', file: 'bloom' },
+            { key: '1', label: 'Bloom [S]', action: 'present', file: 'bloom' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -213,7 +213,11 @@ function getSceneText(sceneId, lastId) {
             "Cosmin își freacă ochii. 'Ești sigur că nu e prea mult glow? Mă doare capul puțin.'",
             "Cosmin își ajustează ochelarii. 'Gaussian Blur face totul mai cinematic, chiar dacă geometria e urâtă.'",
             "Cosmin arată spre zonele luminoase. 'Acum totul arată ca un joc AAA din 2010. Succes!'",
-            "Cosmin se uită la ceas: 'Frame-ul durează mai mult, dar măcar arată scump.'"
+            "Cosmin se uită la ceas: 'Frame-ul durează mai mult, dar măcar arată scump.'",
+            "Cosmin își pune ochelari de soare. 'Arată bine, dar ai grijă la performanță. Prea mult blur și frame rate-ul scade sub 30.'",
+            "Cosmin aprobă: 'Gaussian Blur separabil. Asta e diferența dintre un inginer și cineva care doar copiază shadere de pe net.'",
+            "Cosmin: 'Acum că avem Bloom, putem să ascundem faptul că texturile au rezoluție mică. E trucul preferat al industriei.'",
+            "Cosmin verifică Threshold-ul: 'Dacă setezi limita prea jos, o să strălucească și podeaua. Nimeni nu vrea podea radioactivă.'"
         ]);
 
         if (lastPresentedFile === 'raytracing') return getRandom([
