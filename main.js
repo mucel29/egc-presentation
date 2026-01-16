@@ -55,7 +55,7 @@ const SCENES = {
     'optimization_menu': {
         options: [
             { key: '1', label: 'Batch Rendering [M]', action: 'present', file: 'batching' },
-            { key: '2', label: 'Frustum Culling', action: 'present', file: 'batching' },
+            { key: '2', label: 'Frustum Culling [S]', action: 'present', file: 'frustum_culling' },
             { key: '3', label: 'Fast Inverse Square Root [S][AI]', action: 'present', file: 'hacks' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
@@ -207,6 +207,13 @@ function getSceneText(sceneId, lastId) {
             "Cosmin îți arată pădurea: 'Ai desenat 10.000 de copaci într-un singur apel. Ești un erou.'",
             "Cosmin rânjește satisfăcut: 'Draw Calls sunt inamicul. Tu tocmai i-ai învins.'",
             "Cosmin verifică task manager-ul: 'Memoria VRAM e plină, dar FPS-ul zboară. Worth it.'"
+        ]);
+
+        if (lastPresentedFile === 'frustum_culling') return getRandom([
+            "Cosmin se uită în spatele tău. 'Vezi? Nu e nimic acolo. De ce am randat asta până acum?'",
+            "Cosmin desenează o piramidă în aer. 'Tot ce e în afara cutiei magice nu există. E solipsism aplicat în informatică.'",
+            "Cosmin verifică `Bounding Sphere`-ul unui copac. 'E mai rapid să verifici o sferă decât 5000 de poligoane. Lenea e o virtute în optimizare.'",
+            "Ai salvat milioane de operații pe secundă. Placa ta video tocmai a coborât cu 5 grade."
         ]);
 
         if (lastPresentedFile === 'bloom') return getRandom([
