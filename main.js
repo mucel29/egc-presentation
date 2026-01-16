@@ -65,6 +65,7 @@ const SCENES = {
             { key: '1', label: 'Mouse Picking (Color) [M]', action: 'present', file: 'mouse_picking_color' },
             { key: '2', label: 'Mouse Picking (Ray Casting) [M]', action: 'present', file: 'mouse_picking_ray' },
             { key: '3', label: 'Text Rendering [L]', action: 'present', file: 'text_rendering' },
+            { key: '4', label: 'Animatie Scheletala [L]', action: 'present', file: 'skeletal_animation' },
             { key: '0', label: 'Întoarce-te', next: 'start' }
         ]
     },
@@ -248,6 +249,13 @@ function getSceneText(sceneId, lastId) {
             "Cosmin aprobă SDF-ul: 'Valve a schimbat lumea cu paper-ul ăla. Să poți scala textul infinit fără pixelare? Genial.'",
             "Cosmin: 'Ai implementat bin-packing pentru atlas? Curajos. Majoritatea oamenilor cedează nervos și folosesc stb_rect_pack.'",
             "Cosmin se uită la litera 'g': 'Descender-ul ăla îmi dă bătăi de cap la aliniere verticală...'"
+        ]);
+
+        if (lastPresentedFile === 'skeletal_animation') return getRandom([
+            "Cosmin își masează umărul. 'Am avut un bug la Inverse Bind Pose și mi-am dislocat clavicula virtuală.'",
+            "Cosmin arată spre un fișier XML. 'Collada... singurul format care te face să apreciezi fișierele binare proprietare.'",
+            "Cosmin: 'Gimbal Lock e motivul pentru care nu folosim grade Euler. Matematica cuaternionilor e grea, dar măcar nu te blochezi în axe.'",
+            "Cosmin încearcă să facă un T-Pose perfect. 'Dacă nu ai ponderile (weights) normalizate la 1.0, o să arăți ca o înghețată topită.'"
         ]);
 
         if (lastPresentedFile === 'hacks') return getRandom([
