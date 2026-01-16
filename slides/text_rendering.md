@@ -155,7 +155,7 @@ void main() {
 
 ---
 
-### Shader SDF &mdash Outline
+### Shader SDF &mdash; Outline
 
 ```glsl
 // Distanta centru - muchie

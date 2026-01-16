@@ -64,7 +64,7 @@
 
 <br>
 
-### Algoritmul Moller Trumbore
+### Algoritmul Möller-Trumbore
 
 > Acest algoritm se foloseste de reprezentarea baricentrica a unui punct in interiorul unui triunghi. 
 >
@@ -287,6 +287,6 @@
 ### Pentru cei interesati
 
 * [1] [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html)
-* [2] [_Algoritmul Moller Trumbore_](https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm)
+* [2] [_Möller–Trumbore intersection algorithm_](https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm)
 * [3] [_The Cherno - Ray Tracing_](https://www.youtube.com/playlist?list=PLlrATfBNZ98edc5GshdBtREv5asFW3yXl)
 * [4] [_Sebastian Lague - Coding Adventure: Ray Tracing_](https://www.youtube.com/watch?v=Qz0KTGYJtUk)

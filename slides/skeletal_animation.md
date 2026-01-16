@@ -18,7 +18,7 @@
 
 > In loc sa animam fiecare punct din geometria obiectului manual, definim un set redus de `oase` &mdash; transformari ierarhice
 >
-> Geometria noastra devin `pielea` oaselor, pozitia fiecarui punct fiind influentata de anumite oase.
+> Geometria noastra devine `pielea` oaselor, pozitia fiecarui punct fiind influentata de anumite oase.
 >
 > Cand miscam osul gatului, geometria gatului si a capului vine dupa el.
 
@@ -104,7 +104,7 @@ void main() {
 
 ## Formate care suporta schelete
 
-> Un simplu `OBJ` nu poate contine informatii complexe cum sunt matricile pentru oase, sunt prea simple.
+> Un simplu `OBJ` nu poate contine informatii complexe cum sunt matricile pentru oase, e prea simplu.
 >
 > De aceea avem nevoie de alte formate precum:
 >
@@ -114,7 +114,7 @@ void main() {
 > * `glTF` (.glb) &mdash; Succesorul de la `Khronos`, poate stoca scene intregi
 > * * Open, binar
 >
-> * `Filmbox` (.fbx) &mdash; standard de industrie, create de `Autodesk`
+> * `Filmbox` (.fbx) &mdash; standard de industrie, creat de `Autodesk`
 > * * Proprietar, binar
 
 ---

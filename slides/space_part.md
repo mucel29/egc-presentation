@@ -10,7 +10,7 @@
 
 <br>
 
-> Cum noi vrem sa avem geometrii interesante, avem nevoie de modele alcatuite din triunghiuri. Fata de o simpla intersectie cu o sfera, cea cu un triunghi este mai costisitoare computational, prin algoritmul `Moller Trumbore`.
+> Cum noi vrem sa avem geometrii interesante, avem nevoie de modele alcatuite din triunghiuri. Fata de o simpla intersectie cu o sfera, cea cu un triunghi este mai costisitoare computational, prin algoritmul `Möller-Trumbore`.
 >
 > O implementare naiva ar verifica aceste intersectii cu toate triunghiurile din scena noastra. Dar ce ne facem cand avem un model cu mii de triunghiuri?
 
